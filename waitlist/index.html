@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Waitlist · phyllux.app</title>
+<meta name="description" content="Get notified when Quanton Suite soft launch opens."/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="../css/site.css"/>
+</head>
+<body>
+<header class="site-header"><div class="header-inner">
+  <a class="brand" href="../">phyllux<span>.app</span></a>
+  <nav class="nav"><a href="../">Home</a><a href="../featured/">Featured</a><a href="../suite/">Quanton Suite</a><a href="../catalog/">Inside Suite</a><a href="../ecosystem/">Ecosystem</a><a href="../manifesto/">Manifesto</a><a href="../pricing/">Pricing</a><a href="../waitlist/">Waitlist</a><a href="../about/">About</a></nav>
+</div></header>
+<main class="wrap">
+
+  <p class="badge">Phyllux apps hub</p>
+  <h1>Waitlist</h1>
+  <p class="lede">Get notified when Quanton Suite soft launch opens.</p>
+
+  <p class="note" id="thanks" hidden>Thanks. You are on the Suite waitlist. We only use this to notify you.</p>
+  <form class="wait-form" action="https://formsubmit.co/hello@phyllux.app" method="POST">
+    <input type="hidden" name="_subject" value="Suite waitlist"/>
+    <input type="hidden" name="_captcha" value="false"/>
+    <input type="hidden" name="_template" value="table"/>
+    <input type="hidden" name="_next" value="https://phyllux.app/waitlist/?thanks=1"/>
+    <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off"/>
+    <label for="email">Email</label>
+    <input id="email" type="email" name="email" required placeholder="you@example.com" autocomplete="email"/>
+    <label for="platforms">Platforms you care about</label>
+    <select id="platforms" name="platforms" required>
+      <option value="Android">Android</option>
+      <option value="Desktop">Desktop</option>
+      <option value="Both">Both</option>
+    </select>
+    <label for="note">Optional note</label>
+    <textarea id="note" name="note" rows="3" maxlength="500" placeholder="Anything you want us to know"></textarea>
+    <div class="row"><button class="btn" type="submit">Join Suite waitlist</button></div>
+  </form>
+  <p class="note">Or email <a href="mailto:hello@phyllux.app?subject=Suite%20waitlist">hello@phyllux.app</a>. No spam list. No clinical claims. First submit may ask FormSubmit to confirm the inbox.</p>
+  <script>
+  (function(){
+    if (new URLSearchParams(location.search).get("thanks") === "1") {
+      var el = document.getElementById("thanks");
+      if (el) { el.hidden = false; }
+    }
+  })();
+  </script>
+
+</main>
+<footer class="site-footer"><div class="wrap">
+  <div class="footer-links">
+    <a href="../suite/">Quanton Suite</a>
+    <a href="../ecosystem/">Ecosystem map</a>
+    <a href="../manifesto/">Manifesto</a>
+    <a href="https://phyllux.io">phyllux.io</a>
+    <a href="https://phyllux.com">phyllux.com</a>
+    <a href="https://novelmatestudio.com">Novelmate</a>
+    <a href="https://finallyme.help">Finally Me</a>
+    <a href="../honesty/">Honesty</a>
+    <a href="../privacy/">Privacy</a>
+    <a href="../waitlist/">Waitlist</a>
+  </div>
+  <p>phyllux.app · Quanton Suite door · David E. Sproule · Edmonton</p>
+</div></footer>
+</body>
+</html>

@@ -1,0 +1,5 @@
+﻿.vercel/
+node_modules/
+downloads/*.apk
+assets/staging/
+*.log
