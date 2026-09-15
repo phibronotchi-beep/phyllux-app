@@ -578,7 +578,7 @@ def build() -> None:
             "Get notified when Quanton Suite soft launch opens.",
             """
   <p class="note" id="thanks" hidden>Thanks. You are on the Suite waitlist. We only use this to notify you.</p>
-  <form class="wait-form" action="https://formsubmit.co/hello@phyllux.app" method="POST">
+  <form class="wait-form" action="https://formsubmit.co/phibronotchi@gmail.com" method="POST">
     <input type="hidden" name="_subject" value="Suite waitlist"/>
     <input type="hidden" name="_captcha" value="false"/>
     <input type="hidden" name="_template" value="table"/>
