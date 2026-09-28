@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build phyllux.app — Phyllux apps catalog for all apps."""
+"""Build phyllux.app — Phyllux Tech apps catalog for all apps."""
 from __future__ import annotations
 
 import re
@@ -111,6 +111,17 @@ h2 { font-size: 1.4rem; margin: 1.7rem 0 .5rem; }
   box-shadow: 0 8px 18px rgba(20,33,43,.05);
 }
 .tile:hover, .app-card:hover, .cat-card:hover { border-color: var(--teal); }
+.tile { position: relative; }
+/* Corner chip, not a stacked header, so a tile with a logo keeps its title on
+   the same line as the tiles beside it that have none. */
+.tile-mark {
+  position: absolute; top: .85rem; right: .85rem;
+  width: 2.1rem; height: 2.1rem;
+  border-radius: .5rem; border: 1px solid var(--line);
+}
+/* Pad the whole tile, not the title. Touching `strong` here would beat the
+   `display: block` rule below and drop the status chip onto the title line. */
+.tile:has(.tile-mark) { padding-right: 3.5rem; }
 .tile strong, .cat-card strong, .app-card strong { display: block; color: var(--teal-deep); margin-bottom: .25rem; }
 .tile em, .cat-card em, .app-card em, .meta {
   display: block; font-style: normal; color: var(--muted); font-size: .88rem;
@@ -149,6 +160,7 @@ button.btn { border: none; cursor: pointer; font: inherit; }
 ul { padding-left: 1.15rem; }
 li { margin: .3rem 0; }
 .status-live { color: #0a7a4a; font-weight: 700; }
+.status-beta { color: #0f6b6d; font-weight: 700; }
 .status-soon { color: #9a6b12; font-weight: 700; }
 .status-plan { color: var(--muted); font-weight: 700; }
 """
@@ -194,6 +206,15 @@ def parse_catalog() -> list[dict]:
 
 FEATURED = [
     {
+        "name": "Karmabot",
+        "href": "https://karmabot.ai",
+        "status": "beta",
+        "blurb": "Ask four AI models one question and a Chair merges the answers. Free to try while it is in beta.",
+        # Synced from the karmabot repo by its scripts/sync_brand_to_sites.py,
+        # so this is the same file the product itself ships.
+        "mark": "/assets/brand/karmabot-mark-96.webp",
+    },
+    {
         "name": "Finally Me",
         "href": "https://finallyme.help",
         "status": "live",
@@ -206,13 +227,13 @@ FEATURED = [
         "blurb": "Local first novel pipeline for writers.",
     },
     {
-        "name": "Sproule Lit / Phyllux books",
+        "name": "Sproule Lit / Phyllux Tech books",
         "href": "https://phyllux.com",
         "status": "live",
-        "blurb": "Literary storefront and Phyllux books.",
+        "blurb": "Literary storefront and Phyllux Tech books.",
     },
     {
-        "name": "Phyllux engineering",
+        "name": "Phyllux Tech engineering",
         "href": "https://phyllux.io",
         "status": "live",
         "blurb": "Phyllux Technologies engineering site.",
@@ -233,7 +254,13 @@ FEATURED = [
 
 
 def status_html(status: str) -> str:
-    label = {"live": "Live", "soon": "Soft launch", "plan": "Planned"}[status]
+    label = {
+        "live": "Live",
+        # Open to anyone, answers are real, but pieces are still being wired.
+        "beta": "Open beta",
+        "soon": "Soft launch",
+        "plan": "Planned",
+    }[status]
     return f'<span class="status-{status}">{label}</span>'
 
 
@@ -273,12 +300,12 @@ def page_shell(title: str, lede: str, body: str, depth: int = 0, hero: str | Non
 </head>
 <body>
 <header class="site-header"><div class="header-inner">
-  <a class="brand" href="{p}">phyllux<span>.app</span></a>
+  <a class="brand" href="{p}">Phyllux Tech<span class="brand-domain">.app</span></a>
   <nav class="nav">{nav_for(depth)}</nav>
 </div></header>
 <main class="wrap">
 {hero_html}
-  <p class="badge">Phyllux apps hub</p>
+  <p class="badge">Phyllux Tech apps hub</p>
   <h1>{title}</h1>
   <p class="lede">{lede}</p>
 {body}
@@ -292,6 +319,7 @@ def page_shell(title: str, lede: str, body: str, depth: int = 0, hero: str | Non
     <a href="https://phyllux.com">phyllux.com</a>
     <a href="https://novelmatestudio.com">Novelmate</a>
     <a href="https://finallyme.help">Finally Me</a>
+    <a href="https://karmabot.ai">Karmabot</a>
     <a href="{p}honesty/">Honesty</a>
     <a href="{p}privacy/">Privacy</a>
     <a href="{p}waitlist/">Waitlist</a>
@@ -405,7 +433,13 @@ def build() -> None:
     matched_icons = 0
 
     featured_cards = "".join(
-        f'<a class="tile" href="{f["href"]}"><strong>{f["name"]}</strong>'
+        f'<a class="tile" href="{f["href"]}">'
+        + (
+            f'<img class="tile-mark" src="{f["mark"]}" alt="" width="96" height="96" loading="lazy">'
+            if f.get("mark")
+            else ""
+        )
+        + f'<strong>{f["name"]}</strong>'
         f'{status_html(f["status"])}<em>{f["blurb"]}</em></a>'
         for f in FEATURED
     )
@@ -423,8 +457,8 @@ def build() -> None:
     write(
         "index.html",
         page_shell(
-            "Quanton Suite and Phyllux apps",
-            "Home for Quanton Suite and live Phyllux apps. One Suite. Modules inside it.",
+            "Quanton Suite and Phyllux Tech apps",
+            "Home for Quanton Suite and live Phyllux Tech apps. One Suite. Modules inside it.",
             f"""
   <div class="cta-row">
     <a class="btn" href="suite/">Open Quanton Suite</a>
@@ -437,7 +471,7 @@ def build() -> None:
     <a class="btn secondary" href="suite/">Suite details</a>
     <a class="btn secondary" href="catalog/">Inside Suite ({total_apps} concepts)</a>
   </div>
-  <h2>Live Phyllux circle</h2>
+  <h2>Live Phyllux Tech circle</h2>
   <div class="tile-grid">{featured_cards}</div>
   <h2>Module families (inside Suite)</h2>
   <p class="note">{len(cats)} families · {total_apps} concepts on the map · Android art tiles sync from the Suite asset registry ({len(icon_paths)} on disk this build; {android_art} derived or placed). Shipping order follows the Suite roadmap.</p>
@@ -454,7 +488,7 @@ def build() -> None:
             "Featured apps",
             "Products you can open today, plus the Suite path that is coming online.",
             f'<div class="tile-grid">{featured_cards}</div>'
-            '<p class="note">More Phyllux circle apps land here as each surface ships.</p>',
+            '<p class="note">More Phyllux Tech circle apps land here as each surface ships.</p>',
             depth=1,
         ),
     )
@@ -547,7 +581,7 @@ def build() -> None:
     <li><strong>Android</strong> Quanton Suite (primary soft launch)</li>
     <li><strong>iPhone</strong> later parity where store policy allows</li>
     <li><strong>Windows / Linux / Mac</strong> Suite or companion tools later</li>
-    <li><strong>Web</strong> waitlists and demos on Phyllux hosts</li>
+    <li><strong>Web</strong> waitlists and demos on Phyllux Tech hosts</li>
   </ul>
 """,
             depth=1,
@@ -614,7 +648,7 @@ def build() -> None:
         "about/index.html",
         page_shell(
             "About",
-            "phyllux.app is the door for Quanton Suite and live Phyllux circle apps.",
+            "phyllux.app is the door for Quanton Suite and live Phyllux Tech circle apps.",
             """
   <p>Built by David E. Sproule in Edmonton. Crosslinks:</p>
   <ul>
@@ -624,6 +658,7 @@ def build() -> None:
     <li><a href="https://phyllux.com">phyllux.com</a> books and Today</li>
     <li><a href="https://novelmatestudio.com">novelmatestudio.com</a></li>
     <li><a href="https://finallyme.help">finallyme.help</a></li>
+    <li><a href="https://karmabot.ai">karmabot.ai</a> four models at one table</li>
   </ul>
 """,
             depth=1,
@@ -670,11 +705,12 @@ def build() -> None:
     <a class="tile" href="../suite/"><strong>Quanton Suite</strong><span class="status-soon">Soft launch</span><em>phyllux.app · one mega app</em></a>
     <a class="tile" href="https://novelmatestudio.com"><strong>Novelmate Studio</strong><span class="status-live">Live</span><em>Local first fiction workspace</em></a>
     <a class="tile" href="https://finallyme.help"><strong>Finally Me</strong><span class="status-live">Live</span><em>Practice companion · non clinical</em></a>
+    <a class="tile" href="https://karmabot.ai"><img class="tile-mark" src="../assets/brand/karmabot-mark-96.webp" alt="" width="96" height="96" loading="lazy"><strong>Karmabot</strong><span class="status-beta">Open beta</span><em>karmabot.ai · a round table of AI models</em></a>
     <a class="tile" href="https://phyllux.com"><strong>Sproule Lit</strong><span class="status-live">Live</span><em>Books on phyllux.com</em></a>
     <a class="tile" href="https://phyllux.com/today.html"><strong>Today</strong><span class="status-soon">In development</span><em>Recovery notebook</em></a>
     <a class="tile" href="https://phyllux.io"><strong>Phyllux.io</strong><span class="status-live">Live</span><em>Research, archive, conscience</em></a>
   </div>
-  <p class="note">Status language: Live = open now · Soft launch = demo path · In development = shipping soon. Evidence and claim ceilings live on each product and on phyllux.io research status.</p>
+  <p class="note">Status language: Live = open now · Open beta = open to everyone, still being wired · Soft launch = demo path · In development = shipping soon. Evidence and claim ceilings live on each product and on phyllux.io research status.</p>
 """,
             depth=1,
         ),

@@ -1,6 +1,6 @@
 # phyllux.app
 
-Apps hub for Phyllux and Quantonics Applications.
+Apps hub for Phyllux Tech and Quantonics Applications.
 
 ## Local
 
