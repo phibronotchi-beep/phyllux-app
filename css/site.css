@@ -34,7 +34,8 @@ a { color: var(--teal); }
   max-width: 1100px; margin: 0 auto; padding: .75rem 1.15rem;
   display: flex; gap: 1rem; align-items: center; justify-content: space-between; flex-wrap: wrap;
 }
-.brand { font-family: Fraunces, Georgia, serif; font-weight: 700; font-size: 1.35rem; color: var(--teal-deep); text-decoration: none; }
+.brand { font-family: Fraunces, Georgia, serif; font-weight: 700; font-size: 1.35rem; color: var(--teal-deep); text-decoration: none; display: inline-flex; align-items: center; gap: 0.45rem; }
+.brand-mark { width: 32px; height: 32px; border-radius: 50%; display: block; }
 .brand span { color: var(--accent); font-weight: 600; font-size: .95rem; margin-left: .35rem; }
 .nav { display: flex; flex-wrap: wrap; gap: .55rem .85rem; }
 .nav a { text-decoration: none; color: var(--muted); font-size: .92rem; font-weight: 600; }
@@ -65,6 +66,17 @@ h2 { font-size: 1.4rem; margin: 1.7rem 0 .5rem; }
   box-shadow: 0 8px 18px rgba(20,33,43,.05);
 }
 .tile:hover, .app-card:hover, .cat-card:hover { border-color: var(--teal); }
+.tile { position: relative; }
+/* Corner chip, not a stacked header, so a tile with a logo keeps its title on
+   the same line as the tiles beside it that have none. */
+.tile-mark {
+  position: absolute; top: .85rem; right: .85rem;
+  width: 2.1rem; height: 2.1rem;
+  border-radius: .5rem; border: 1px solid var(--line);
+}
+/* Pad the whole tile, not the title. Touching `strong` here would beat the
+   `display: block` rule below and drop the status chip onto the title line. */
+.tile:has(.tile-mark) { padding-right: 3.5rem; }
 .tile strong, .cat-card strong, .app-card strong { display: block; color: var(--teal-deep); margin-bottom: .25rem; }
 .tile em, .cat-card em, .app-card em, .meta {
   display: block; font-style: normal; color: var(--muted); font-size: .88rem;
@@ -103,5 +115,6 @@ button.btn { border: none; cursor: pointer; font: inherit; }
 ul { padding-left: 1.15rem; }
 li { margin: .3rem 0; }
 .status-live { color: #0a7a4a; font-weight: 700; }
+.status-beta { color: #0f6b6d; font-weight: 700; }
 .status-soon { color: #9a6b12; font-weight: 700; }
 .status-plan { color: var(--muted); font-weight: 700; }
